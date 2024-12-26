@@ -1,7 +1,6 @@
 package struct;
 
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -35,7 +34,9 @@ public class ArrayList<T> implements Iterable<T> {
     private void ensureCapacity() {
         if (size == array.length) {
             int newCapacity = array.length * 2;
-            array = Arrays.copyOf(array, newCapacity);
+            Object[] newArray = new Object[newCapacity];
+            System.arraycopy(array, 0, newArray, 0, size);
+            array = newArray;
         }
     }
 
