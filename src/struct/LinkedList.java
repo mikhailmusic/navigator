@@ -5,17 +5,17 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class LinkedList<T> implements Iterable<T> {
-    int size;
-    Node<T> head;
-    Node<T> tail;
+    private Node<T> head;
+    private Node<T> tail;
+    private int size;
 
 
     public void add(T data) {
         Node<T> newNode = new Node<>(data);
-        if (isEmpty()) {
+        if (head == null) {
             head = newNode;
         } else {
-            newNode.previous = tail;
+            newNode.prev = tail;
             tail.next = newNode;
         }
         tail = newNode;
@@ -28,8 +28,11 @@ public class LinkedList<T> implements Iterable<T> {
         }
     }
 
-    private boolean isEmpty() {
-        return head == null;
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    public int size() {
+        return size;
     }
 
     @Override
@@ -55,37 +58,41 @@ public class LinkedList<T> implements Iterable<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-
-            T data = current.data;
             lastReturned = current;
+            T data = current.data;
             current = current.next;
             return data;
         }
 
         @Override
         public void remove() {
-            if (lastReturned == head) {
-                head = head.next;
-                if (head != null) {
-                    head.previous = null;
-                }
-                return;
+            if (lastReturned == null) {
+                throw new IllegalStateException("Cannot remove without calling next()");
             }
-            if (lastReturned == tail) {
-                tail.previous.next = null;
-                tail = tail.previous;
-                return;
+            Node<T> nextNode = lastReturned.next;
+            Node<T> prevNode = lastReturned.prev;
+
+            if (prevNode != null) {
+                prevNode.next = nextNode;
+            } else {
+                head = nextNode;
             }
 
-            lastReturned.previous.next = lastReturned.next;
+            if (nextNode != null) {
+                nextNode.prev = prevNode;
+            } else {
+                tail = prevNode;
+            }
+
+            lastReturned = null;
             size--;
         }
     }
 
-    static class Node<T> {
+    private static class Node<T> {
         T data;
         Node<T> next;
-        Node<T> previous;
+        Node<T> prev;
 
         public Node(T data) {
             this.data = data;
