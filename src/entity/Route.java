@@ -81,7 +81,6 @@ public class Route {
     @Override
     public String toString() {
         String template = """
-                                
                 ================
                 Маршрут %s-%s,
                 ID: %s,
@@ -91,7 +90,6 @@ public class Route {
                 Схема маршрута:
                 %s
                 ================
-                                
                 """;
 
         return String.format(template,
