@@ -3,7 +3,6 @@ package util;
 import entity.Route;
 
 import java.security.SecureRandom;
-import java.text.DecimalFormat;
 
 public class RouteGenerator {
     private static final SecureRandom random = new SecureRandom();
@@ -16,9 +15,7 @@ public class RouteGenerator {
 
             String[] locationPoints = generateLocationPoints();
             distance*=locationPoints.length;
-
-            DecimalFormat decimalFormat = new DecimalFormat("#.#");
-            distance = Double.parseDouble(decimalFormat.format(distance).replace(",", "."));
+            distance = Math.round(distance * 10.0) / 10.0;
 
             Route route = new Route(
                     distance,
