@@ -1,6 +1,5 @@
 package struct;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -91,7 +90,6 @@ public class ArrayList<T> implements Iterable<T> {
         }
     }
 
-    @NotNull
     @Override
     public Iterator<T> iterator() {
         return new ArrayListIterator();

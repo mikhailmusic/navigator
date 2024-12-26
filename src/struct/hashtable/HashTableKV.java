@@ -1,6 +1,5 @@
 package struct.hashtable;
 
-import org.jetbrains.annotations.NotNull;
 import struct.LinkedList;
 
 import java.util.Arrays;
@@ -12,7 +11,6 @@ public class HashTableKV<K, V> implements Iterable<KeyValue<K, V>> {
     private LinkedList<KeyValue<K, V>>[] table;
     private int size;
 
-    @NotNull
     @Override
     public Iterator<KeyValue<K, V>> iterator() {
         LinkedList<KeyValue<K, V>> allEntries = new LinkedList<>();

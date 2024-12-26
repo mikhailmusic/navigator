@@ -1,6 +1,5 @@
 package struct.hashtable;
 
-import java.util.LinkedList;
 import java.util.Objects;
 
 public class KeyValue<Key, Value> {

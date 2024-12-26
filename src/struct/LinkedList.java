@@ -1,6 +1,5 @@
 package struct;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -33,7 +32,6 @@ public class LinkedList<T> implements Iterable<T> {
         return head == null;
     }
 
-    @NotNull
     @Override
     public Iterator<T> iterator() {
         return new LinkedListIterator();

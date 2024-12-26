@@ -3,7 +3,6 @@ import navigator.impl.HashTableNavigator;
 import util.RouteGenerator;
 
 import java.util.Scanner;
-import java.util.UUID;
 
 public class Main {
     private static final HashTableNavigator navigator = new HashTableNavigator();

@@ -4,8 +4,6 @@ import entity.Route;
 
 import java.security.SecureRandom;
 import java.text.DecimalFormat;
-import java.util.Arrays;
-import java.util.UUID;
 
 public class RouteGenerator {
     private static final SecureRandom random = new SecureRandom();

@@ -1,13 +1,11 @@
 package struct.hashtable;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 
 public class HashTable<T> implements Iterable<KeyValue<Integer, T>> {
     private final HashTableKV<Integer, T> integerTHashTable = new HashTableKV<>();
 
-    @NotNull
     @Override
     public Iterator<KeyValue<Integer, T>> iterator() {
         return integerTHashTable.iterator();
