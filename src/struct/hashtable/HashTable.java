@@ -31,8 +31,8 @@ public class HashTable<T> implements Iterable<KeyValue<Integer, T>> {
         return integerTHashTable.find(hashCode);
     }
 
-    public boolean remove(Integer key) {
-        return integerTHashTable.remove(key);
+    public boolean remove(Integer hashCode) {
+        return integerTHashTable.remove(hashCode);
     }
 
     public void clear() {
@@ -43,16 +43,24 @@ public class HashTable<T> implements Iterable<KeyValue<Integer, T>> {
         return integerTHashTable.values();
     }
 
-    public boolean containsKey(Integer key) {
-        return integerTHashTable.containsKey(key);
+    public boolean containsKey(Integer hashCode) {
+        return integerTHashTable.containsKey(hashCode);
+    }
+
+    public boolean contains(T value) {
+        for(T r : integerTHashTable.values()) {
+            if (value.equals(r)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int size() {
         return integerTHashTable.size();
     }
 
-    @Override
-    public String toString() {
-        return integerTHashTable.toString();
+    public int capacity() {
+        return integerTHashTable.capacity();
     }
 }
