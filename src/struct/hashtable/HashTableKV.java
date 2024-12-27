@@ -2,57 +2,59 @@ package struct.hashtable;
 
 import struct.LinkedList;
 
-import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class HashTableKV<K, V> implements Iterable<KeyValue<K, V>> {
-    private static final int DEFAULT_CAPACITY = 16;
-    private static final double LOAD_FACTOR_THRESHOLD = 0.5;
-    private LinkedList<KeyValue<K, V>>[] table;
-    private int size;
-
-    @Override
-    public Iterator<KeyValue<K, V>> iterator() {
-        LinkedList<KeyValue<K, V>> allEntries = new LinkedList<>();
-        for (LinkedList<KeyValue<K, V>> list : table) {
-            if (list != null) {
-                allEntries.addAll(list);
-            }
-        }
-        return allEntries.iterator();
-    }
+    private static final int INITIAL_CAPACITY = 16;
+    private static final double LOAD_FACTOR = 0.80d;
+    private LinkedList<KeyValue<K, V>>[] slots;
+    private int count;
 
     public HashTableKV() {
-        this(DEFAULT_CAPACITY);
+        this(INITIAL_CAPACITY);
     }
 
     @SuppressWarnings("unchecked")
     public HashTableKV(int capacity) {
-        table = new LinkedList[capacity];
-        size = 0;
+        this.slots = new LinkedList[capacity];
+        this.count = 0;
     }
 
     public void add(K key, V value) {
-        addOrReplace(key, value);
+        growIfNeeded();
+        int slotNumber = findSlotNumber(key);
+
+        if (slots[slotNumber] == null) {
+            slots[slotNumber] = new LinkedList<>();
+        }
+
+        for (KeyValue<K, V> kv : slots[slotNumber]) {
+            if (kv.getKey().equals(key)) {
+                throw new IllegalArgumentException("Key already exists: " + key);
+            }
+        }
+
+        slots[slotNumber].add(new KeyValue<>(key, value, count));
+        count++;
     }
 
     private int findSlotNumber(K key) {
-        int hashCode = key.hashCode();
-        return Math.abs(hashCode) % table.length;
+        return Math.abs(key.hashCode()) % this.slots.length;
     }
 
     private void growIfNeeded() {
-        if ((double) (size + 1) / table.length > LOAD_FACTOR_THRESHOLD) {
-            grow();
+        if ((double) (this.size() + 1) / this.slots.length > LOAD_FACTOR) {
+            this.grow();
         }
     }
 
     @SuppressWarnings("unchecked")
     private void grow() {
-        int newCapacity = table.length * 2;
+        int newCapacity = slots.length * 2;
         LinkedList<KeyValue<K, V>>[] newTable = new LinkedList[newCapacity];
 
-        for (LinkedList<KeyValue<K, V>> list : table) {
+        for (LinkedList<KeyValue<K, V>> list : slots) {
             if (list != null) {
                 for (KeyValue<K, V> entry : list) {
                     int newSlot = Math.abs(entry.getKey().hashCode()) % newCapacity;
@@ -63,55 +65,51 @@ public class HashTableKV<K, V> implements Iterable<KeyValue<K, V>> {
                 }
             }
         }
-        table = newTable;
+        this.slots = newTable;
     }
 
     public int size() {
-        return size;
+        return this.count;
     }
 
     public int capacity() {
-        return table.length;
+        return this.slots.length;
     }
 
     public boolean addOrReplace(K key, V value) {
-        int slot = findSlotNumber(key);
+        growIfNeeded();
+        int slotNumber = findSlotNumber(key);
 
-        if (table[slot] == null) {
-            table[slot] = new LinkedList<>();
+        if (slots[slotNumber] == null) {
+            slots[slotNumber] = new LinkedList<>();
         }
 
-        for (KeyValue<K, V> entry : table[slot]) {
-            if (entry.getKey().equals(key)) {
-                entry.setValue(value);
+        for (KeyValue<K, V> kv : slots[slotNumber]) {
+            if (kv.getKey().equals(key)) {
+                kv.setValue(value);
                 return false;
             }
         }
 
-        table[slot].add(new KeyValue<>(key, value, size));
-        size++;
-        growIfNeeded();
+        slots[slotNumber].add(new KeyValue<>(key, value, count));
+        count++;
         return true;
     }
 
     public V get(K key) {
-        int slot = findSlotNumber(key);
-        if (table[slot] != null) {
-            for (KeyValue<K, V> entry : table[slot]) {
-                if (entry.getKey().equals(key)) {
-                    return entry.getValue();
-                }
-            }
+        KeyValue<K, V> kv = this.find(key);
+        if (kv == null) {
+            throw new NoSuchElementException("Key not found: " + key);
         }
-        return null;
+        return kv.getValue();
     }
 
     public KeyValue<K, V> find(K key) {
-        int slot = findSlotNumber(key);
-        if (table[slot] != null) {
-            for (KeyValue<K, V> entry : table[slot]) {
-                if (entry.getKey().equals(key)) {
-                    return entry;
+        int slotNumber = findSlotNumber(key);
+        if (slots[slotNumber] != null) {
+            for (KeyValue<K, V> kv : slots[slotNumber]) {
+                if (kv.getKey().equals(key)) {
+                    return kv;
                 }
             }
         }
@@ -123,14 +121,14 @@ public class HashTableKV<K, V> implements Iterable<KeyValue<K, V>> {
     }
 
     public boolean remove(K key) {
-        int slot = findSlotNumber(key);
-        if (table[slot] != null) {
-            Iterator<KeyValue<K, V>> iterator = table[slot].iterator();
+        int slotNumber = findSlotNumber(key);
+        if (slots[slotNumber] != null) {
+            Iterator<KeyValue<K, V>> iterator = slots[slotNumber].iterator();
             while (iterator.hasNext()) {
-                KeyValue<K, V> entry = iterator.next();
-                if (entry.getKey().equals(key)) {
+                KeyValue<K, V> kv = iterator.next();
+                if (kv.getKey().equals(key)) {
                     iterator.remove();
-                    size--;
+                    count--;
                     return true;
                 }
             }
@@ -139,36 +137,72 @@ public class HashTableKV<K, V> implements Iterable<KeyValue<K, V>> {
     }
 
     public void clear() {
-        Arrays.fill(table, null);
-        size = 0;
+        for (int i = 0; i < this.slots.length; i++) {
+            this.slots[i] = null;
+        }
+        this.count = 0;
     }
 
     public Iterable<K> keys() {
-        LinkedList<K> keys = new LinkedList<>();
-        for (LinkedList<KeyValue<K, V>> list : table) {
-            if (list != null) {
-                for (KeyValue<K, V> entry : list) {
-                    keys.add(entry.getKey());
+        LinkedList<K> keysList = new LinkedList<>();
+        for (LinkedList<KeyValue<K, V>> slot : this.slots) {
+            if (slot != null) {
+                for (KeyValue<K, V> kv : slot) {
+                    keysList.add(kv.getKey());
                 }
             }
         }
-        return keys;
+        return keysList;
     }
 
     public Iterable<V> values() {
-        LinkedList<V> values = new LinkedList<>();
-        for (LinkedList<KeyValue<K, V>> list : table) {
-            if (list != null) {
-                for (KeyValue<K, V> entry : list) {
-                    values.add(entry.getValue());
+        LinkedList<V> valuesList = new LinkedList<>();
+        for (LinkedList<KeyValue<K, V>> slot : this.slots) {
+            if (slot != null) {
+                for (KeyValue<K, V> kv : slot) {
+                    valuesList.add(kv.getValue());
                 }
             }
         }
-        return values;
+        return valuesList;
     }
 
     @Override
-    public String toString() {
-        return Arrays.toString(table);
+    public Iterator<KeyValue<K, V>> iterator() {
+        return new HashTableIterator();
+    }
+
+    private class HashTableIterator implements Iterator<KeyValue<K, V>> {
+        private Iterator<KeyValue<K, V>> currentIterator;
+        private int currentSlot = 0;
+
+        @Override
+        public boolean hasNext() {
+            if (currentIterator != null && currentIterator.hasNext()) {
+                return true;
+            }
+
+            while (currentSlot < slots.length) {
+                if (slots[currentSlot] != null) {
+                    currentIterator = slots[currentSlot].iterator();
+                    if (currentIterator.hasNext()) {
+                        currentSlot++;
+                        return true;
+                    }
+                }
+                currentSlot++;
+            }
+
+            return false;
+        }
+
+        @Override
+        public KeyValue<K, V> next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No more elements in the hash table");
+            }
+            return currentIterator.next();
+        }
+
     }
 }
