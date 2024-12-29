@@ -1,14 +1,14 @@
 package entity.comporator;
 
 import entity.Route;
-import struct.hashtable.HashTable;
+import struct.hashtable.HashTableKV;
 
 import java.util.Comparator;
 
 public class FavoriteComparator implements Comparator<Route> {
-    private final HashTable<Route> table;
+    private final HashTableKV<String, Route> table;
 
-    public FavoriteComparator(HashTable<Route> table) {
+    public FavoriteComparator(HashTableKV<String, Route> table) {
         this.table = table;
     }
 
@@ -20,6 +20,6 @@ public class FavoriteComparator implements Comparator<Route> {
         if (o2.getPopularity() != o1.getPopularity()) {
             return o2.getPopularity() - o1.getPopularity();
         }
-        return table.getOrder(o2.hashCode()) - table.getOrder(o1.hashCode());
+        return table.getOrder(o2.getId()) - table.getOrder(o1.getId());
     }
 }

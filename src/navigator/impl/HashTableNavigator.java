@@ -6,26 +6,26 @@ import entity.comporator.RouteComparator;
 import entity.comporator.TopComparator;
 import navigator.Navigator;
 import struct.ArrayList;
-import struct.hashtable.HashTable;
+import struct.hashtable.HashTableKV;
 
 import java.util.Comparator;
 
 public class HashTableNavigator implements Navigator {
-    private final HashTable<Route> hashTable = new HashTable<>();
+    private final HashTableKV<String, Route> hashTable = new HashTableKV<>();
 
     @Override
     public void addRoute(Route route) {
-        hashTable.add(route);
+        hashTable.addOrReplace(route.getId(), route);
     }
 
     @Override
     public void removeRoute(String routeId) {
-        hashTable.remove(routeId.hashCode());
+        hashTable.remove(routeId);
     }
 
     @Override
     public boolean contains(Route route) {
-        return hashTable.containsKey(route.hashCode());
+        return hashTable.containsKey(route.getId());
     }
 
     @Override
@@ -35,14 +35,14 @@ public class HashTableNavigator implements Navigator {
 
     @Override
     public Route getRoute(String routeId) {
-        return hashTable.get(routeId.hashCode());
+        return hashTable.get(routeId);
     }
 
     @Override
     public void chooseRoute(String routeId) {
-        Route route = hashTable.get(routeId.hashCode());
+        Route route = hashTable.get(routeId);
         route.setPopularity(route.getPopularity() + 1);
-        hashTable.add(route);
+        hashTable.addOrReplace(route.getId(), route);
     }
 
     @Override

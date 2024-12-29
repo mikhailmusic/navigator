@@ -1,14 +1,14 @@
 package entity.comporator;
 
 import entity.Route;
-import struct.hashtable.HashTable;
+import struct.hashtable.HashTableKV;
 
 import java.util.Comparator;
 
 public class TopComparator implements Comparator<Route> {
-    private final HashTable<Route> table;
+    private final HashTableKV<String, Route> table;
 
-    public TopComparator(HashTable<Route> table) {
+    public TopComparator(HashTableKV<String, Route> table) {
         this.table = table;
     }
 
@@ -24,6 +24,6 @@ public class TopComparator implements Comparator<Route> {
         if (o2.getLocationPoints().length != o1.getLocationPoints().length) {
             return o2.getLocationPoints().length - o1.getLocationPoints().length;
         }
-        return table.getOrder(o2.hashCode()) - table.getOrder(o1.hashCode());
+        return table.getOrder(o2.getId()) - table.getOrder(o1.getId());
     }
 }

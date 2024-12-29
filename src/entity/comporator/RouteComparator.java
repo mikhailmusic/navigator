@@ -1,16 +1,16 @@
 package entity.comporator;
 
 import entity.Route;
-import struct.hashtable.HashTable;
+import struct.hashtable.HashTableKV;
 
 import java.util.Comparator;
 
 public class RouteComparator implements Comparator<Route> {
     private final String startPoint;
     private final String endPoint;
-    private final HashTable<Route> hashTable;
+    private final HashTableKV<String, Route> hashTable;
 
-    public RouteComparator(String startPoint, String endPoint, HashTable<Route> hashTable) {
+    public RouteComparator(String startPoint, String endPoint, HashTableKV<String, Route> hashTable) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.hashTable = hashTable;
@@ -30,7 +30,7 @@ public class RouteComparator implements Comparator<Route> {
         if (o2.getPopularity() != o1.getPopularity()) {
             return o1.getPopularity() - o2.getPopularity();
         }
-        return hashTable.getOrder(o2.hashCode()) - hashTable.getOrder(o1.hashCode());
+        return hashTable.getOrder(o2.getId()) - hashTable.getOrder(o1.getId());
     }
 
     private int countDistance(String[] array) {
