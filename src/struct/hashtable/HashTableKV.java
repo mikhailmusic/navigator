@@ -120,6 +120,23 @@ public class HashTableKV<K, V> implements Iterable<KeyValue<K, V>> {
         return find(key) != null;
     }
 
+    public boolean containsValue(V value) {
+        for (LinkedList<KeyValue<K, V>> slot : this.slots) {
+            if (slot != null) {
+                for (KeyValue<K, V> kv : slot) {
+                    if (kv.getValue().equals(value)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getOrder(K key) {
+        return find(key).getOrder();
+    }
+
     public boolean remove(K key) {
         int slotNumber = findSlotNumber(key);
         if (slots[slotNumber] != null) {
