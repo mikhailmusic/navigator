@@ -5,18 +5,18 @@ import struct.LinkedList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class HashTableKV<K, V> implements Iterable<KeyValue<K, V>> {
+public class HashTable<K, V> implements Iterable<KeyValue<K, V>> {
     private static final int INITIAL_CAPACITY = 16;
     private static final double LOAD_FACTOR = 0.80d;
     private LinkedList<KeyValue<K, V>>[] slots;
     private int count;
 
-    public HashTableKV() {
+    public HashTable() {
         this(INITIAL_CAPACITY);
     }
 
     @SuppressWarnings("unchecked")
-    public HashTableKV(int capacity) {
+    public HashTable(int capacity) {
         this.slots = new LinkedList[capacity];
         this.count = 0;
     }

@@ -1,16 +1,16 @@
 package entity.comporator;
 
 import entity.Route;
-import struct.hashtable.HashTableKV;
+import struct.hashtable.HashTable;
 
 import java.util.Comparator;
 
 public class RouteComparator implements Comparator<Route> {
     private final String startPoint;
     private final String endPoint;
-    private final HashTableKV<String, Route> hashTable;
+    private final HashTable<String, Route> hashTable;
 
-    public RouteComparator(String startPoint, String endPoint, HashTableKV<String, Route> hashTable) {
+    public RouteComparator(String startPoint, String endPoint, HashTable<String, Route> hashTable) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.hashTable = hashTable;

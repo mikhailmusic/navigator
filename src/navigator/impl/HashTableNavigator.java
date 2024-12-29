@@ -6,12 +6,12 @@ import entity.comporator.RouteComparator;
 import entity.comporator.TopComparator;
 import navigator.Navigator;
 import struct.ArrayList;
-import struct.hashtable.HashTableKV;
+import struct.hashtable.HashTable;
 
 import java.util.Comparator;
 
 public class HashTableNavigator implements Navigator {
-    private final HashTableKV<String, Route> hashTable = new HashTableKV<>();
+    private final HashTable<String, Route> hashTable = new HashTable<>();
 
     @Override
     public void addRoute(Route route) {

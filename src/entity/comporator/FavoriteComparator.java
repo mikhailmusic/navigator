@@ -1,14 +1,14 @@
 package entity.comporator;
 
 import entity.Route;
-import struct.hashtable.HashTableKV;
+import struct.hashtable.HashTable;
 
 import java.util.Comparator;
 
 public class FavoriteComparator implements Comparator<Route> {
-    private final HashTableKV<String, Route> table;
+    private final HashTable<String, Route> table;
 
-    public FavoriteComparator(HashTableKV<String, Route> table) {
+    public FavoriteComparator(HashTable<String, Route> table) {
         this.table = table;
     }
 
