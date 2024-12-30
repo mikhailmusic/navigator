@@ -31,6 +31,10 @@ public class ArrayList<T> implements Iterable<T> {
         return size;
     }
 
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
     private void ensureCapacity() {
         if (size == array.length) {
             int newCapacity = array.length * 2;
@@ -38,6 +42,33 @@ public class ArrayList<T> implements Iterable<T> {
             System.arraycopy(array, 0, newArray, 0, size);
             array = newArray;
         }
+    }
+
+    public T getFirst() {
+        if (isEmpty()) {
+            throw new IllegalStateException("List is empty");
+        }
+        return get(0);
+    }
+
+    public T getLast() {
+        if (isEmpty()) {
+            throw new IllegalStateException("List is empty");
+        }
+        return get(size - 1);
+    }
+
+    public int indexOf(T element) {
+        for (int i = 0; i < size; i++) {
+            if (array[i].equals(element)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public boolean contains(T element) {
+        return indexOf(element) >= 0;
     }
 
     public void sort(Comparator<T> comparator) {
