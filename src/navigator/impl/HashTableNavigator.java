@@ -41,8 +41,10 @@ public class HashTableNavigator implements Navigator {
     @Override
     public void chooseRoute(String routeId) {
         Route route = hashTable.get(routeId);
-        route.setPopularity(route.getPopularity() + 1);
-        hashTable.addOrReplace(route.getId(), route);
+        if (route != null) {
+            route.setPopularity(route.getPopularity() + 1);
+            hashTable.addOrReplace(route.getId(), route);
+        }
     }
 
     @Override
