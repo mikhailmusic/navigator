@@ -99,7 +99,7 @@ public class HashTable<K, V> implements Iterable<KeyValue<K, V>> {
     public V get(K key) {
         KeyValue<K, V> kv = this.find(key);
         if (kv == null) {
-            throw new NoSuchElementException("Key not found: " + key);
+            return null;
         }
         return kv.getValue();
     }
