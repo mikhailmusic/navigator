@@ -20,6 +20,6 @@ public class FavoriteComparator implements Comparator<Route> {
         if (o2.getPopularity() != o1.getPopularity()) {
             return o2.getPopularity() - o1.getPopularity();
         }
-        return table.getOrder(o2.getId()) - table.getOrder(o1.getId());
+        return Integer.compare(table.getOrder(o1.getId()), table.getOrder(o2.getId()));
     }
 }

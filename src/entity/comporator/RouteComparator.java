@@ -30,7 +30,7 @@ public class RouteComparator implements Comparator<Route> {
         if (o2.getPopularity() != o1.getPopularity()) {
             return o1.getPopularity() - o2.getPopularity();
         }
-        return hashTable.getOrder(o2.getId()) - hashTable.getOrder(o1.getId());
+        return Integer.compare(hashTable.getOrder(o1.getId()), hashTable.getOrder(o2.getId()));
     }
 
     private int countDistance(String[] array) {
