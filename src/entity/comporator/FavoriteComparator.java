@@ -18,7 +18,7 @@ public class FavoriteComparator implements Comparator<Route> {
             return Double.compare(o1.getDistance(), o2.getDistance());
         }
         if (o2.getPopularity() != o1.getPopularity()) {
-            return o2.getPopularity() - o1.getPopularity();
+            return Integer.compare(o2.getPopularity(), o1.getPopularity());
         }
         return Integer.compare(table.getOrder(o1.getId()), table.getOrder(o2.getId()));
     }
