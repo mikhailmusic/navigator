@@ -21,8 +21,8 @@ public class TopComparator implements Comparator<Route> {
         if (!o1.getDistance().equals(o2.getDistance())) {
             return Double.compare(o1.getDistance(), o2.getDistance());
         }
-        if (o2.getLocationPoints().length != o1.getLocationPoints().length) {
-            return Integer.compare(o1.getLocationPoints().length, o2.getLocationPoints().length);
+        if (o1.getLocationPoints().size() != o2.getLocationPoints().size()) {
+            return Integer.compare(o1.getLocationPoints().size(), o2.getLocationPoints().size());
         }
         return Integer.compare(table.getOrder(o1.getId()), table.getOrder(o2.getId()));
     }

@@ -58,24 +58,15 @@ public class HashTableNavigator implements Navigator {
         }
 
         Comparator<Route> routeComparator = new RouteComparator(startPoint, endPoint, hashTable);
-        matchingRoutes.sort(routeComparator.reversed());
+        matchingRoutes.sort(routeComparator);
 
         return matchingRoutes;
     }
 
     private boolean hasLogicalMeaning(Route route, String startPoint, String endPoint) {
-        String[] locationPoints = route.getLocationPoints();
-
-        int startIndex = -1;
-        int endIndex = -1;
-
-        for (int i = 0; i < locationPoints.length; i++) {
-            if (locationPoints[i].equals(startPoint)) {
-                startIndex = i;
-            } else if (locationPoints[i].equals(endPoint)) {
-                endIndex = i;
-            }
-        }
+        ArrayList<String> locationPoints = route.getLocationPoints();
+        int startIndex = locationPoints.indexOf(startPoint);
+        int endIndex = locationPoints.indexOf(endPoint);
 
         return startIndex != -1 && endIndex != -1 && startIndex < endIndex;
     }
@@ -84,7 +75,8 @@ public class HashTableNavigator implements Navigator {
     public Iterable<Route> getFavoriteRoutes(String destinationPoint) {
         ArrayList<Route> routes = new ArrayList<>();
         for (Route route : hashTable.values()) {
-            if (route.isFavorite() && containsDestination(destinationPoint, route)) {
+            if (route.isFavorite() && route.getLocationPoints().contains(destinationPoint)
+                    && !route.getLocationPoints().get(0).equals(destinationPoint)) {
                 routes.add(route);
             }
         }
@@ -93,13 +85,6 @@ public class HashTableNavigator implements Navigator {
         routes.sort(comparator);
 
         return routes;
-    }
-
-    private boolean containsDestination(String destinationPoint, Route route) {
-        for (int i = 1; i < route.getLocationPoints().length; i++) {
-            if (route.getLocationPoints()[i].equals(destinationPoint)) return true;
-        }
-        return false;
     }
 
     @Override

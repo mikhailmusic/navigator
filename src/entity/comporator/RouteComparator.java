@@ -1,6 +1,7 @@
 package entity.comporator;
 
 import entity.Route;
+import struct.ArrayList;
 import struct.hashtable.HashTable;
 
 import java.util.Comparator;
@@ -18,39 +19,26 @@ public class RouteComparator implements Comparator<Route> {
 
     @Override
     public int compare(Route o1, Route o2) {
-        if (o2.isFavorite() && !o1.isFavorite()) {
+        if (o1.isFavorite() && !o2.isFavorite()) {
             return -1;
         }
-        if (o1.isFavorite() && !o2.isFavorite()) {
+        if (!o1.isFavorite() && o2.isFavorite()) {
             return 1;
         }
-        if (countDistance(o1.getLocationPoints()) != countDistance(o2.getLocationPoints())) {
-            return countDistance(o2.getLocationPoints()) - countDistance(o1.getLocationPoints());
+        int pointSpacing1 = countDistance(o1.getLocationPoints());
+        int pointSpacing2 = countDistance(o2.getLocationPoints());
+        if (pointSpacing1 != pointSpacing2) {
+            return Integer.compare(pointSpacing1, pointSpacing2);
         }
-        if (o2.getPopularity() != o1.getPopularity()) {
-            return o1.getPopularity() - o2.getPopularity();
+        if (o1.getPopularity() != o2.getPopularity()) {
+            return Integer.compare(o2.getPopularity(), o1.getPopularity());
         }
         return Integer.compare(hashTable.getOrder(o1.getId()), hashTable.getOrder(o2.getId()));
     }
 
-    private int countDistance(String[] array) {
-        int startIndex = -1;
-        int endIndex = -1;
-
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].equals(startPoint)) {
-                startIndex = i;
-                break;
-            }
-        }
-
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].equals(endPoint)) {
-                endIndex = i;
-                break;
-            }
-        }
-
-        return endIndex - startIndex;
+    private int countDistance(ArrayList<String> array) {
+        int startIndex = array.indexOf(startPoint);
+        int endIndex = array.indexOf(endPoint);
+        return endIndex - startIndex -1;
     }
 }

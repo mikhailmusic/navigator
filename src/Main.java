@@ -1,5 +1,6 @@
 import entity.Route;
 import navigator.impl.HashTableNavigator;
+import struct.ArrayList;
 import util.RouteGenerator;
 
 import java.util.Scanner;
@@ -122,11 +123,11 @@ public class Main {
         System.out.print("Введите количество точек маршрута: ");
         int size = scanner.nextInt();
 
-        String[] locationPoints = new String[size];
+        ArrayList<String> locationPoints = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             int number = i + 1;
             System.out.print("Введите название " + number + "-го города: ");
-            locationPoints[i] = scanner.next();
+            locationPoints.add(scanner.next());
         }
 
         Route route = new Route(
