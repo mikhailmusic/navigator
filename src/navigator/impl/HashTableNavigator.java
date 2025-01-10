@@ -15,7 +15,9 @@ public class HashTableNavigator implements Navigator {
 
     @Override
     public void addRoute(Route route) {
-        hashTable.addOrReplace(route.getId(), route);
+        if (!hashTable.containsValue(route) && route.validate()){
+            hashTable.add(route.getId(), route);
+        }
     }
 
     @Override
@@ -103,5 +105,16 @@ public class HashTableNavigator implements Navigator {
         }
 
         return top5;
+    }
+
+
+    public Iterable<Route> getAllRoutes() {
+        return hashTable.values();
+    }
+    public void changeFavorite(String routeId){
+        Route route = hashTable.get(routeId);
+        if (route != null) {
+            route.setFavorite(!route.isFavorite());
+        }
     }
 }

@@ -103,4 +103,19 @@ public class Route {
     }
 
 
+    public boolean validate() {
+        if (distance < 0) {
+            System.out.println("Расстояние не может быть отрицательным");
+            return false;
+        }
+        if (popularity < 0) {
+            System.out.println("Популярность не может быть отрицательной");
+            return false;
+        }
+        if (locationPoints == null || locationPoints.size() < 2) {
+            System.out.println("Маршрут должен содержать минимум 2 точки");
+            return false;
+        }
+        return true;
+    }
 }
