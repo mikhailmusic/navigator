@@ -127,16 +127,14 @@ public class Main {
         System.out.println("Найденные маршруты");
         Iterable<Route> routes = navigator.searchRoutes(startPoint, endPoint);
         for (Route route : routes) {
-            System.out.println(route);
+            System.out.print(route);
         }
     }
 
     private static void favoriteRoutes() {
         System.out.println("""
-        
                 1. Просмотреть
                 2. Изменить
-        
                 """);
 
         System.out.print("Введите вариант: ");
@@ -152,7 +150,7 @@ public class Main {
 
         System.out.println("Избранные маршруты");
         for (Route favorite : navigator.getFavoriteRoutes(destination)) {
-            System.out.println(favorite);
+            System.out.print(favorite);
         }
     }
 
@@ -165,13 +163,13 @@ public class Main {
     private static void top5() {
         System.out.println("Топ 5 маршрутов");
         for (Route route : navigator.getTop3Routes()) {
-            System.out.println(route);
+            System.out.print(route);
         }
     }
 
     private static void allRoutes(){
         for (Route route : navigator.getAllRoutes()) {
-            System.out.println(route);
+            System.out.print(route);
         }
     }
 

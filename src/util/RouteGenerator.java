@@ -34,8 +34,11 @@ public class RouteGenerator {
         int arraySize = random.nextInt(5) + 2;
         ArrayList<String> locationPoints = new ArrayList<>();
 
-        for (int i = 0; i < arraySize; i++) {
-            locationPoints.add(generateCityName());
+        while (locationPoints.size() < arraySize) {
+            String cityName = generateCityName();
+            if (!locationPoints.contains(cityName)) {
+                locationPoints.add(cityName);
+            }
         }
 
         return locationPoints;
