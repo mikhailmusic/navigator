@@ -1,6 +1,7 @@
 package util;
 
 import entity.Route;
+import struct.ArrayList;
 
 import java.security.SecureRandom;
 
@@ -13,8 +14,8 @@ public class RouteGenerator {
         for (int i = 0; i < number; i++) {
             double distance = 5.0 + random.nextDouble()*10;
 
-            String[] locationPoints = generateLocationPoints();
-            distance*=locationPoints.length;
+            ArrayList<String> locationPoints = generateLocationPoints();
+            distance*=locationPoints.size();
             distance = Math.round(distance * 10.0) / 10.0;
 
             Route route = new Route(
@@ -29,12 +30,12 @@ public class RouteGenerator {
         return routes;
     }
 
-    private static String[] generateLocationPoints() {
+    private static ArrayList<String> generateLocationPoints() {
         int arraySize = random.nextInt(5) + 2;
-        String[] locationPoints = new String[arraySize];
+        ArrayList<String> locationPoints = new ArrayList<>();
 
         for (int i = 0; i < arraySize; i++) {
-            locationPoints[i] = generateCityName();
+            locationPoints.add(generateCityName());
         }
 
         return locationPoints;
