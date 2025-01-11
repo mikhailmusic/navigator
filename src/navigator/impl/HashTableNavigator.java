@@ -7,6 +7,7 @@ import entity.comporator.TopComparator;
 import navigator.Navigator;
 import struct.ArrayList;
 import struct.hashtable.HashTable;
+import struct.hashtable.KeyValue;
 
 import java.util.Comparator;
 
@@ -53,7 +54,8 @@ public class HashTableNavigator implements Navigator {
     public Iterable<Route> searchRoutes(String startPoint, String endPoint) {
         ArrayList<Route> matchingRoutes = new ArrayList<>();
 
-        for (Route route: hashTable.values()) {
+        for (KeyValue<String, Route> kv: hashTable) {
+            Route route = kv.getValue();
             if (hasLogicalMeaning(route, startPoint, endPoint)) {
                 matchingRoutes.add(route);
             }
@@ -76,7 +78,8 @@ public class HashTableNavigator implements Navigator {
     @Override
     public Iterable<Route> getFavoriteRoutes(String destinationPoint) {
         ArrayList<Route> routes = new ArrayList<>();
-        for (Route route : hashTable.values()) {
+        for (KeyValue<String, Route> kv: hashTable) {
+            Route route = kv.getValue();
             if (route.isFavorite() && route.getLocationPoints().contains(destinationPoint)
                     && !route.getLocationPoints().get(0).equals(destinationPoint)) {
                 routes.add(route);

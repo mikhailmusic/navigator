@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 
 public class HashTable<K, V> implements Iterable<KeyValue<K, V>> {
     private static final int INITIAL_CAPACITY = 16;
-    private static final double LOAD_FACTOR = 0.80d;
+    private static final double LOAD_FACTOR = 0.75d;
     private LinkedList<KeyValue<K, V>>[] slots;
     private int count;
 
