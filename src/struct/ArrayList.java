@@ -122,6 +122,14 @@ public class ArrayList<T> implements Iterable<T> {
         }
     }
 
+    public static <T> ArrayList<T> asList(T... a) {
+        ArrayList<T> list = new ArrayList<>();
+        for (T element : a) {
+            list.add(element);
+        }
+        return list;
+    }
+
     @Override
     public Iterator<T> iterator() {
         return new ArrayListIterator();
