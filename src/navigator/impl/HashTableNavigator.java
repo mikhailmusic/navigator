@@ -112,7 +112,10 @@ public class HashTableNavigator implements Navigator {
 
 
     public Iterable<Route> getAllRoutes() {
-        return hashTable.values();
+        ArrayList<Route> routes = new ArrayList<>();
+        routes.addAll(hashTable.values());
+        routes.sort((o1, o2) -> Integer.compare(hashTable.getOrder(o1.getId()), hashTable.getOrder(o2.getId())));
+        return routes;
     }
     public void changeFavorite(String routeId){
         Route route = hashTable.get(routeId);
