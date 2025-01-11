@@ -11,10 +11,10 @@ public class Route {
     private ArrayList<String> locationPoints;
 
     public Route(Double distance, int popularity, boolean isFavorite, ArrayList<String> locationPoints) {
-        this.distance = distance;
-        this.popularity = popularity;
-        this.isFavorite = isFavorite;
-        this.locationPoints = locationPoints;
+        setDistance(distance);
+        setPopularity(popularity);
+        setFavorite(isFavorite);
+        setLocationPoints(locationPoints);
         this.id = distance + locationPoints.getFirst() + locationPoints.getLast();
     }
 
@@ -35,6 +35,9 @@ public class Route {
     }
 
     public void setDistance(Double distance) {
+        if (distance < 0) {
+            throw new IllegalArgumentException("Расстояние не может быть отрицательным");
+        }
         this.distance = distance;
     }
 
@@ -43,6 +46,9 @@ public class Route {
     }
 
     public void setPopularity(int popularity) {
+        if (popularity < 0) {
+            throw new IllegalArgumentException("Популярность не может быть отрицательной");
+        }
         this.popularity = popularity;
     }
 
@@ -59,12 +65,16 @@ public class Route {
     }
 
     public void setLocationPoints(ArrayList<String> locationPoints) {
+        if (locationPoints == null || locationPoints.size() < 2) {
+            throw new IllegalArgumentException("Маршрут должен содержать минимум 2 точки");
+        }
         this.locationPoints = locationPoints;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o.getClass() != getClass()) return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         Route route = (Route) o;
         return route.distance.equals(distance)
                 && route.locationPoints.getFirst().equals(locationPoints.getFirst())
@@ -80,42 +90,38 @@ public class Route {
 
     @Override
     public String toString() {
-        String template = """
-                ================
-                Маршрут %s-%s,
-                ID: %s,
-                Дистанция: %s,
-                Популярность: %s,
-                Избранный: %s,
-                Схема маршрута:
-                %s
-                ================
-                """;
-
-        return String.format(template,
-                locationPoints.getFirst(),
-                locationPoints.getLast(),
-                id,
-                distance,
-                popularity,
-                isFavorite ? "Да" : "Нет",
-                Utils.joinStrings(locationPoints));
+        return "Route{" +
+                "id='" + id + '\'' +
+                ", distance=" + distance +
+                ", popularity=" + popularity +
+                ", isFavorite=" + isFavorite +
+                ", locationPoints=" + Utils.joinStrings(locationPoints) +
+                "}\n";
     }
 
-
-    public boolean validate() {
-        if (distance < 0) {
-            System.out.println("Расстояние не может быть отрицательным");
-            return false;
-        }
-        if (popularity < 0) {
-            System.out.println("Популярность не может быть отрицательной");
-            return false;
-        }
-        if (locationPoints == null || locationPoints.size() < 2) {
-            System.out.println("Маршрут должен содержать минимум 2 точки");
-            return false;
-        }
-        return true;
-    }
 }
+
+
+//@Override
+//public String toString() {
+//    String template = """
+//                ================
+//                Маршрут %s-%s,
+//                ID: %s,
+//                Дистанция: %s,
+//                Популярность: %s,
+//                Избранный: %s,
+//                Схема маршрута:
+//                %s
+//                ================
+//                """;
+//
+//    return String.format(template,
+//            locationPoints.getFirst(),
+//            locationPoints.getLast(),
+//            id,
+//            distance,
+//            popularity,
+//            isFavorite ? "Да" : "Нет",
+//            Utils.joinStrings(locationPoints));
+//}

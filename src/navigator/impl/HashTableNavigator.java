@@ -15,7 +15,7 @@ public class HashTableNavigator implements Navigator {
 
     @Override
     public void addRoute(Route route) {
-        if (!hashTable.containsValue(route) && route.validate()){
+        if (!hashTable.containsValue(route)){
             hashTable.add(route.getId(), route);
         }
     }

@@ -74,15 +74,19 @@ public class Main {
             locationPoints.add(scanner.nextLine());
         }
 
-        Route route = new Route(distance, popularity, isFavorite, locationPoints);
-        if (navigator.contains(route)) {
-            System.out.println("Такой маршрут уже есть");
-            return;
-        }
-        navigator.addRoute(route);
+        try {
+            Route route = new Route(distance, popularity, isFavorite, locationPoints);
+            if (navigator.contains(route)) {
+                System.out.println("Такой маршрут уже есть");
+                return;
+            }
+            navigator.addRoute(route);
 
-        System.out.println("Добавлен следующий маршрут:");
-        System.out.println(route);
+            System.out.println("Добавлен следующий маршрут:");
+            System.out.println(route);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage() + "\n");
+        }
     }
 
     private static void deleteRoute() {
