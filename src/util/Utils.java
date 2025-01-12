@@ -15,4 +15,25 @@ public class Utils {
 
         return result.toString();
     }
+
+    public static <K> int hashCode(K value) {
+        int result = 17;
+
+        if (value instanceof String strKey) {
+            for (int i = 0; i < strKey.length(); i++) {
+                result = 31 * result + strKey.charAt(i);
+            }
+        } else if (value instanceof Integer) {
+            result = (Integer) value;
+        } else if (value instanceof Long) {
+            result = (int) ((Long) value ^ (Long) value >>> 32);
+        } else if (value instanceof Double) {
+            long bits = Double.doubleToLongBits((Double) value);
+            result = (int) (bits ^ (bits >>> 32));
+        } else {
+            result = value.hashCode();
+        }
+
+        return result;
+    }
 }

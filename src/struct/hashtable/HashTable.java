@@ -1,6 +1,7 @@
 package struct.hashtable;
 
 import struct.LinkedList;
+import util.Utils;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -40,7 +41,7 @@ public class HashTable<K, V> implements Iterable<KeyValue<K, V>> {
     }
 
     private int findSlotNumber(K key) {
-        return Math.abs(key.hashCode()) % this.slots.length;
+        return Math.abs(Utils.hashCode(key)) % this.slots.length;
     }
 
     private void growIfNeeded() {
@@ -57,7 +58,7 @@ public class HashTable<K, V> implements Iterable<KeyValue<K, V>> {
         for (LinkedList<KeyValue<K, V>> list : slots) {
             if (list != null) {
                 for (KeyValue<K, V> entry : list) {
-                    int newSlot = Math.abs(entry.getKey().hashCode()) % newCapacity;
+                    int newSlot = Math.abs(Utils.hashCode(entry.getKey())) % newCapacity;
                     if (newTable[newSlot] == null) {
                         newTable[newSlot] = new LinkedList<>();
                     }
