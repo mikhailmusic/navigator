@@ -16,7 +16,7 @@ public class HashTableNavigator implements Navigator {
 
     @Override
     public void addRoute(Route route) {
-        if (!hashTable.containsValue(route)){
+        if (!hashTable.contains(route)){
             hashTable.add(route.getId(), route);
         }
     }
@@ -28,7 +28,7 @@ public class HashTableNavigator implements Navigator {
 
     @Override
     public boolean contains(Route route) {
-        return hashTable.containsKey(route.getId());
+        return hashTable.contains(route);
     }
 
     @Override
@@ -46,7 +46,6 @@ public class HashTableNavigator implements Navigator {
         Route route = hashTable.get(routeId);
         if (route != null) {
             route.setPopularity(route.getPopularity() + 1);
-            hashTable.addOrReplace(route.getId(), route);
         }
     }
 
@@ -110,6 +109,9 @@ public class HashTableNavigator implements Navigator {
         return top5;
     }
 
+    public boolean contains(String routeId) {
+        return hashTable.containsKey(routeId);
+    }
 
     public Iterable<Route> getAllRoutes() {
         ArrayList<Route> routes = new ArrayList<>();
@@ -117,10 +119,10 @@ public class HashTableNavigator implements Navigator {
         routes.sort((o1, o2) -> Integer.compare(hashTable.getOrder(o1.getId()), hashTable.getOrder(o2.getId())));
         return routes;
     }
-    public void changeFavorite(String routeId){
+    public void changeFavorite(String routeId, boolean favorite){
         Route route = hashTable.get(routeId);
         if (route != null) {
-            route.setFavorite(!route.isFavorite());
+            route.setFavorite(favorite);
         }
     }
 }

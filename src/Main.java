@@ -22,12 +22,14 @@ public class Main {
                 case 2 -> createRoute();
                 case 3 -> deleteRoute();
                 case 4 -> searchById();
-                case 5 -> chooseRote();
-                case 6 -> findByStartAndEnd();
-                case 7 -> favoriteRoutes();
-                case 8 -> top5();
-                case 9 -> allRoutes();
+                case 5 -> checkContains();
+                case 6 -> chooseRote();
+                case 7 -> findByStartAndEnd();
+                case 8 -> favoriteRoutes();
+                case 9 -> top5();
+                case 10 -> allRoutes();
                 case 0 -> isRunning = false;
+                default -> System.out.println("Попробуйте ещё раз");
             }
 
         } while (isRunning);
@@ -36,16 +38,17 @@ public class Main {
     private static int mainMenu() {
         String menu =
                 """
-                    Добро пожаловать в навигатор
+                    ======= Навигатор =======
                     1. Количество маршрутов
                     2. Добавить маршрут
                     3. Удалить маршрут
                     4. Поиск маршрута по ID
-                    5. Увеличить популярность
-                    6. Поиск маршрута по начальной и конечной точке
-                    7. Избранные маршруты (поиск, изменение)
-                    8. Топ 5 маршрутов
-                    9. Вывести все маршруты
+                    5. Проверить есть ли маршрут
+                    6. Увеличить популярность
+                    7. Поиск маршрута по начальной и конечной точке
+                    8. Избранные маршруты (поиск, изменение)
+                    9. Топ 5 маршрутов
+                    10. Вывести все маршруты
                     0. Выход
                     """;
 
@@ -99,10 +102,7 @@ public class Main {
         System.out.print("Введите id: ");
         String id = scanner.nextLine();
 
-        Route route = new Route();
-        route.setId(id);
-
-        boolean contains = navigator.contains(route);
+        boolean contains = navigator.contains(id);
 
         if (!contains) {
             System.out.println("Маршрут не найден");
@@ -112,6 +112,15 @@ public class Main {
         System.out.println("Маршрут найден");
         System.out.println(navigator.getRoute(id));
     }
+
+    private static void checkContains() {
+        System.out.print("Введите идентификатор пути: ");
+        String routeId = scanner.nextLine();
+
+        boolean contains = navigator.contains(routeId);
+        System.out.println("Путь (есть/нет): " + contains);
+    }
+
 
     private static void routeList() {
         System.out.println("Общее количество маршрутов: " + navigator.size());
@@ -159,9 +168,13 @@ public class Main {
     }
 
     private static void changeFavorite() {
-        System.out.print("Введите id маршрута: ");
+        System.out.println("Введите нужную информацию");
+        System.out.print("Введите id: ");
         String id = scanner.nextLine();
-        navigator.changeFavorite(id);
+        System.out.print("Этот маршрут избранный (true/false): ");
+        boolean favorite = Boolean.parseBoolean(scanner.nextLine());
+        navigator.changeFavorite(id, favorite);
+        System.out.println("Маркер избранности установлен");
     }
 
     private static void top5() {

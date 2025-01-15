@@ -15,7 +15,7 @@ public class Route {
         setPopularity(popularity);
         setFavorite(isFavorite);
         setLocationPoints(locationPoints);
-        this.id = distance + locationPoints.getFirst() + locationPoints.getLast();
+        this.id = (distance + locationPoints.getFirst() + locationPoints.getLast()).replaceAll("\\s+", "");
     }
 
 

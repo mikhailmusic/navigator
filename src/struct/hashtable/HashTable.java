@@ -121,7 +121,7 @@ public class HashTable<K, V> implements Iterable<KeyValue<K, V>> {
         return find(key) != null;
     }
 
-    public boolean containsValue(V value) {
+    public boolean contains(V value) {
         for (LinkedList<KeyValue<K, V>> slot : this.slots) {
             if (slot != null) {
                 for (KeyValue<K, V> kv : slot) {
