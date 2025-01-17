@@ -17,7 +17,7 @@ public class Utils {
     }
 
     public static <K> int hashCode(K value) {
-        int result = 17;
+        int result = 1;
 
         if (value instanceof String strKey) {
             for (int i = 0; i < strKey.length(); i++) {

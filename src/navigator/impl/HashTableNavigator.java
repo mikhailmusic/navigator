@@ -16,7 +16,7 @@ public class HashTableNavigator implements Navigator {
 
     @Override
     public void addRoute(Route route) {
-        if (!hashTable.contains(route)){
+        if (!contains(route)){
             hashTable.add(route.getId(), route);
         }
     }
@@ -28,7 +28,7 @@ public class HashTableNavigator implements Navigator {
 
     @Override
     public boolean contains(Route route) {
-        return hashTable.contains(route);
+        return hashTable.containsKey(route.getId());
     }
 
     @Override

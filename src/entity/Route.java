@@ -84,7 +84,7 @@ public class Route {
 
     @Override
     public int hashCode() {
-        int result = 17;
+        int result = 1;
         result = 31 * result + Utils.hashCode(distance);
         result = 31 * result + Utils.hashCode(locationPoints.getFirst());
         result = 31 * result + Utils.hashCode(locationPoints.getLast());
